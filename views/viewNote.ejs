@@ -11,7 +11,7 @@
     <p>Crée le <%= note ? `${date}` : '' %></p>
     <p>Dernière modification le <%= note ? `${updatedAt}` : '' %></p>
     <% if (hasWritePermission) { %>
-        <a href="/note/<%= note.id %>/edit">Edit</a>
+        <a href="/note/<%= note.id %>/edit">Editer</a>
     <% } %>
 </body>
 </html>

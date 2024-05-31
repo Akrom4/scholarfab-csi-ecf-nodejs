@@ -41,19 +41,19 @@
 
     <h2>Partager une Note</h2>
     <form action="/share" method="POST">
-        <label for="noteId">Note:</label>
+        <label for="noteId">Note :</label>
         <select id="noteId" name="noteId" required>
             <% personalNotes.forEach(note => { %>
                 <option value="<%= note.id %>"><%= note.title %></option>
             <% }) %>
         </select>
-        <label for="userId">Utilisateur:</label>
+        <label for="userId">Utilisateur :</label>
         <select id="userId" name="userId" required>
             <% users.forEach(user => { %>
                 <option value="<%= user.id %>"><%= user.firstname %> <%= user.lastname %></option>
             <% }) %>
         </select>
-        <label for="permission">Permission:</label>
+        <label for="permission">Permission :</label>
         <select id="permission" name="permission" required>
             <option value="ro">Lecture</option>
             <option value="rw">Écriture</option>

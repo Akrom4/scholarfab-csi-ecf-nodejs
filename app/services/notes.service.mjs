@@ -19,7 +19,7 @@ export function createNote(db, { title, content, ownerId }) {
                 console.error('Error creating note:', err);
                 reject(err);
             } else {
-                resolve(this.lastID); // Optionally return the ID of the created note
+                resolve(this.lastID);
             }
         });
     });

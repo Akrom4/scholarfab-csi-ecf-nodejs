@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Édition de Note</title>
+    <title>Édition</title>
 </head>
 <body>
     <form action="/note/<%= note.id %>/edit" method="post">
@@ -16,7 +16,7 @@
             <textarea name="content"><%= note ? note.content : '' %></textarea>
         </div>
         <div>
-            <button type="submit">GO !</button>
+            <button type="submit">Editer</button>
         </div>
     </form>
 </body>
