@@ -3,17 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home Page</title>
 </head>
 <body>
     <h1>Bonjour <%= user ? `${user.firstname}` : '' %> !</h1>
     <p>
         <% if(user) { %>
+            <a href="/note">Create Note</a><br />
             <a href="/logout">Logout</a>
         <% } else { %>
             <a href="/login">Login</a>
             <a href="/register">Register</a>
         <% } %>
     </p>
+    
+    <% if (user) { %>
+        <h2>My Notes</h2>
+        <% if (notes.length > 0) { %>
+            <ul>
+                <% notes.forEach(note => { %>
+                    <li>
+                        <h3><%= note.title %></h3>
+                        <a href="/note/<%= note.id %>">View</a>
+                        <a href="/note/<%= note.id %>/edit">Edit</a>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No notes found.</p>
+        <% } %>
+    <% } %>
 </body>
 </html>

@@ -44,12 +44,13 @@ export async function createApplication({ __rootdir }) {
             httpOnly: true 
         }),
 
-/*
-        (req, res, next) => {
-            console.log('req.session.user', req.session.user)
-            next()
-        }
-*/
+
+        // (req, res, next) => {
+        //     console.log('req.session.user', req.session.user)
+        //     console.log('notes', req.session.notes)
+        //     next()
+        // }
+
     ])
     
     loadHomeController(app)
