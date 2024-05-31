@@ -20,3 +20,18 @@ export function createUser(db, { email, firstname, lastname, password }) {
         })
     })
 }
+
+export function fetchAllUsers(db) {
+    return new Promise((resolve, reject) => {
+        const stmt = db.prepare('SELECT id, firstname, lastname FROM users');
+        stmt.all((err, data) => {
+            if (err) {
+                console.error('Error fetching users:', err);
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+}
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partager une Note</title>
+    <script src="/shareNote.js" defer></script>
+</head>
+<body>
+    <h1>Partager une Note</h1>
+    <form action="/share" method="POST">
+        <input type="hidden" id="noteId" name="noteId" value="<%= noteId %>">
+        <div id="shareContainer">
+            <div class="shareRow">
+                <label for="userId">Utilisateur:</label>
+                <select name="userIds[]" required>
+                    <% users.forEach(user => { %>
+                        <option value="<%= user.id %>"><%= user.firstname %> <%= user.lastname %></option>
+                    <% }) %>
+                </select>
+                <label for="permission">Permission:</label>
+                <select name="permissions[]">
+                    <option value="ro">Lecture</option>
+                    <option value="rw">Écriture</option>
+                </select>
+                <button type="button" class="removeShareRowButton">Retirer</button>
+                <br><br>
+            </div>
+        </div>
+        <button type="button" id="addShareRowButton">Ajouter</button>
+        <br><br>
+        <button type="submit">Partager</button>
+    </form>
+    <a href="/">Retour</a>
+</body>
+</html>

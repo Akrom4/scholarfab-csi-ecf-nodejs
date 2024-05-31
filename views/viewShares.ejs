@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voir Partages</title>
+</head>
+<body>
+    <h1>Partages</h1>
+    <ul>
+        <% shares.forEach(share => { %>
+            <li>
+                Note ID: <%= share.note_id %>, User ID: <%= share.user_id %>, Permission: <%= share.permission %>
+                <a href="/share/<%= share.id %>/revoke">Révoquer</a>
+            </li>
+        <% }) %>
+    </ul>
+    <a href="/">Retour</a>
+</body>
+</html>

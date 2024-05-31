@@ -10,6 +10,7 @@
     <p>
         <% if(user) { %>
             <a href="/note">Create Note</a><br />
+            <a href="/shares">Gérer les partages</a><br />
             <a href="/logout">Logout</a>
         <% } else { %>
             <a href="/login">Login</a>
@@ -31,6 +32,23 @@
             </ul>
         <% } else { %>
             <p>No notes found.</p>
+        <% } %>
+
+        <h2>Shared Notes</h2>
+        <% if (sharedNotes.length > 0) { %>
+            <ul>
+                <% sharedNotes.forEach(note => { %>
+                    <li>
+                        <h3><%= note.title %></h3>
+                        <a href="/note/<%= note.id %>">View</a>
+                        <% if (note.permission === 'write') { %>
+                            <a href="/note/<%= note.id %>/edit">Edit</a>
+                        <% } %>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No shared notes found.</p>
         <% } %>
     <% } %>
 </body>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gérer les Partages</title>
+</head>
+<body>
+    <h1>Gérer les Partages</h1>
+
+    <h2>Mes Notes Partagées</h2>
+    <% if (sharedNotes.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Contenu</th>
+                    <th>Partagé avec</th>
+                    <th>Droits</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% sharedNotes.forEach(note => { %>
+                    <% const noteShares = shares.filter(share => share.note_id === note.id); %>
+                    <% noteShares.forEach(share => { %>
+                        <tr>
+                            <td><%= note.title %></td>
+                            <td><%= note.content %></td>
+                            <td><%= users.find(user => user.id === share.user_id).firstname %> <%= users.find(user => user.id === share.user_id).lastname %></td>
+                            <td><%= share.perm === 'rw' ? 'Écriture' : 'Lecture' %></td>
+                            <td><a href="/share/<%= share.id %>/revoke">Révoquer</a></td>
+                        </tr>
+                    <% }) %>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>Aucune note partagée.</p>
+    <% } %>
+
+    <h2>Partager une Note</h2>
+    <form action="/share" method="POST">
+        <label for="noteId">Note:</label>
+        <select id="noteId" name="noteId" required>
+            <% personalNotes.forEach(note => { %>
+                <option value="<%= note.id %>"><%= note.title %></option>
+            <% }) %>
+        </select>
+        <label for="userId">Utilisateur:</label>
+        <select id="userId" name="userId" required>
+            <% users.forEach(user => { %>
+                <option value="<%= user.id %>"><%= user.firstname %> <%= user.lastname %></option>
+            <% }) %>
+        </select>
+        <label for="permission">Permission:</label>
+        <select id="permission" name="permission" required>
+            <option value="ro">Lecture</option>
+            <option value="rw">Écriture</option>
+        </select>
+        <button type="submit">Partager</button>
+    </form>
+
+    <a href="/">Retour</a>
+</body>
+</html>
