@@ -71,3 +71,13 @@ export function fetchShareByNoteAndUser(db, { noteId, userId }) {
     });
 }
 
+// Revokes all shares for a specific note
+export function revokeSharesByNote(db, noteId) {
+    return new Promise((resolve, reject) => {
+        const stmt = db.prepare('DELETE FROM shares WHERE note_id=?');
+        stmt.run([noteId], (err, data) => {
+            const p = err ? err : data;
+            (err ? reject : resolve)(p);
+        });
+    });
+}

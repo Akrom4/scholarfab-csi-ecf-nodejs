@@ -4,6 +4,7 @@ import {
   createNote,
   fetchNotesByUser,
   fetchNotesSharedByUser,
+  archiveNote,
 } from "../services/notes.service.mjs";
 import { formatDate } from "../helpers/dateHelper.mjs";
 import {
@@ -11,6 +12,7 @@ import {
   fetchShareByNoteAndUser,
   fetchSharesByNote,
   revokeShare,
+  revokeSharesByNote,
 } from "../services/share.service.mjs";
 import { fetchAllUsers } from "../services/user.service.mjs";
 
@@ -218,6 +220,31 @@ async function handleRevokeShare(req, res) {
     res.redirect("/shares");
   }
 }
+// Handles archiving a note, removing all shares, and marking the note as archived
+async function handleArchiveNote(req, res) {
+  const { app } = req;
+  const db = app.get("g:db");
+  const { id } = req.params;
+  const user = req.session.user;
+
+  if (!user) {
+    return res.redirect("/login");
+  }
+
+  try {
+    const note = await fetchNoteById(db, id);
+    if (note.owner_id !== user.id) {
+      return res.redirect("/");
+    }
+
+    await revokeSharesByNote(db, id); // Revoke all shares for the note
+    await archiveNote(db, id); // Archive the note
+    res.redirect("/");
+  } catch (err) {
+    console.error("Failed to archive note:", err);
+    res.redirect("/");
+  }
+}
 
 // Loads the application routes for note and share handling
 export function loadApplicationController(app) {
@@ -226,6 +253,7 @@ export function loadApplicationController(app) {
   app.get("/note/:id", handleViewNote);
   app.get("/note/:id/edit", handleEditNoteForm);
   app.post("/note/:id/edit", handleUpdateNote);
+  app.get("/note/:id/archive", handleArchiveNote);
   app.post("/share", handleCreateShare);
   app.get("/shares", handleManageShares);
   app.get("/share/:shareId/revoke", handleRevokeShare);

@@ -10,8 +10,13 @@ export function loadHomeController(app) {
         
         try {
             const db = app.get('g:db');
-            const notes = await fetchNotesByUser(db, user.id);
-            const sharedNotes = await fetchSharedNotesByUser(db, user.id);
+            let notes = await fetchNotesByUser(db, user.id);
+            let sharedNotes = await fetchSharedNotesByUser(db, user.id);
+
+            // Filter out archived notes
+            notes = notes.filter(note => !note.archived_at);
+            sharedNotes = sharedNotes.filter(note => !note.archived_at);
+
             res.render('index', { user, notes, sharedNotes });
         } catch (err) {
             console.error(err);

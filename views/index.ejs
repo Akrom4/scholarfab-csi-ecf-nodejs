@@ -1,17 +1,19 @@
+<!-- views/index.ejs -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Accueil</title>
 </head>
 <body>
     <h1>Bonjour <%= user ? `${user.firstname}` : '' %> !</h1>
     <p>
         <% if(user) { %>
-            <a href="/note">Create Note</a><br />
+            <a href="/note">Créer une note</a><br />
             <a href="/shares">Gérer les partages</a><br />
-            <a href="/logout">Logout</a>
+            <a href="/logout">Se déconnecter</a>
         <% } else { %>
             <a href="/login">Login</a>
             <a href="/register">Register</a>
@@ -19,36 +21,37 @@
     </p>
     
     <% if (user) { %>
-        <h2>My Notes</h2>
+        <h2>Mes Notes</h2>
         <% if (notes.length > 0) { %>
             <ul>
                 <% notes.forEach(note => { %>
                     <li>
                         <h3><%= note.title %></h3>
-                        <a href="/note/<%= note.id %>">View</a>
-                        <a href="/note/<%= note.id %>/edit">Edit</a>
+                        <a href="/note/<%= note.id %>">Voir</a>
+                        <a href="/note/<%= note.id %>/edit">Editer</a>
+                        <a href="/note/<%= note.id %>/archive">Archiver</a>
                     </li>
                 <% }) %>
             </ul>
         <% } else { %>
-            <p>No notes found.</p>
+            <p>Aucune note.</p>
         <% } %>
 
-        <h2>Shared Notes</h2>
+        <h2>Notes Partagées</h2>
         <% if (sharedNotes.length > 0) { %>
             <ul>
                 <% sharedNotes.forEach(note => { %>
                     <li>
                         <h3><%= note.title %></h3>
-                        <a href="/note/<%= note.id %>">View</a>
+                        <a href="/note/<%= note.id %>">Voir</a>
                         <% if (note.perm === 'rw') { %>
-                            <a href="/note/<%= note.id %>/edit">Edit</a>
+                            <a href="/note/<%= note.id %>/edit">Editer</a>
                         <% } %>
                     </li>
                 <% }) %>
             </ul>
         <% } else { %>
-            <p>No shared notes found.</p>
+            <p>Aucune note partagée.</p>
         <% } %>
     <% } %>
 </body>

@@ -83,3 +83,15 @@ export function fetchNotesSharedByUser(db, userId) {
         });
     });
 }
+
+// Archives a specific note by setting the archived_at timestamp
+export function archiveNote(db, id) {
+    return new Promise((resolve, reject) => {
+        const archivedAt = new Date().toISOString();
+        const stmt = db.prepare('UPDATE notes SET archived_at=? WHERE id=?');
+        stmt.run([archivedAt, id], (err, data) => {
+            const p = err ? err : data;
+            (err ? reject : resolve)(p);
+        });
+    });
+}
