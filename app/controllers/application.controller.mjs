@@ -14,6 +14,7 @@ import {
 } from "../services/share.service.mjs";
 import { fetchAllUsers } from "../services/user.service.mjs";
 
+// Handles rendering the form to create a new note
 async function handleCreateNoteForm(req, res) {
   const { app } = req;
   const db = app.get("g:db");
@@ -30,6 +31,7 @@ async function handleCreateNoteForm(req, res) {
   }
 }
 
+// Handles saving a new note to the database
 async function handleSaveNote(req, res) {
   const { app } = req;
   const db = app.get("g:db");
@@ -47,6 +49,8 @@ async function handleSaveNote(req, res) {
     res.redirect("/login");
   }
 }
+
+// Handles viewing a specific note, checking if the user has permission
 async function handleViewNote(req, res) {
   const { app } = req;
   const db = app.get("g:db");
@@ -81,6 +85,7 @@ async function handleViewNote(req, res) {
   }
 }
 
+// Handles rendering the form to edit a note, checking if the user has permission
 async function handleEditNoteForm(req, res) {
   const { app } = req;
   const db = app.get("g:db");
@@ -109,6 +114,7 @@ async function handleEditNoteForm(req, res) {
   }
 }
 
+// Handles updating a specific note in the database
 async function handleUpdateNote(req, res) {
   const { app } = req;
   const db = app.get("g:db");
@@ -139,6 +145,7 @@ async function handleUpdateNote(req, res) {
   }
 }
 
+// Handles managing shares, displaying personal and shared notes, and available users
 async function handleManageShares(req, res) {
   const { app } = req;
   const db = app.get("g:db");
@@ -170,6 +177,7 @@ async function handleManageShares(req, res) {
   }
 }
 
+// Handles creating a new share for a note
 async function handleCreateShare(req, res) {
   const { app } = req;
   const db = app.get("g:db");
@@ -190,6 +198,7 @@ async function handleCreateShare(req, res) {
   }
 }
 
+// Handles revoking an existing share
 async function handleRevokeShare(req, res) {
   const { app } = req;
   const db = app.get("g:db");
@@ -210,6 +219,7 @@ async function handleRevokeShare(req, res) {
   }
 }
 
+// Loads the application routes for note and share handling
 export function loadApplicationController(app) {
   app.get("/note", handleCreateNoteForm);
   app.post("/note", handleSaveNote);

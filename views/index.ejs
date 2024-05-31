@@ -41,7 +41,7 @@
                     <li>
                         <h3><%= note.title %></h3>
                         <a href="/note/<%= note.id %>">View</a>
-                        <% if (note.permission === 'write') { %>
+                        <% if (note.perm === 'rw') { %>
                             <a href="/note/<%= note.id %>/edit">Edit</a>
                         <% } %>
                     </li>

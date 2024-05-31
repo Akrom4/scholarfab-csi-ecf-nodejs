@@ -1,5 +1,6 @@
 import { hash } from 'bcrypt'
 
+// Retrieves a user by their email address
 export function fetchUserByEmail(db, email) {
     return new Promise((resolve, reject) => {
         const stmt = db.prepare('SELECT * FROM users WHERE email=?')
@@ -10,6 +11,7 @@ export function fetchUserByEmail(db, email) {
     })
 }
 
+// Creates a new user with the provided details (email, firstname, lastname, password)
 export function createUser(db, { email, firstname, lastname, password }) {
     return new Promise(async (resolve, reject) => {
         const pass = await hash(password, 10)
@@ -21,6 +23,7 @@ export function createUser(db, { email, firstname, lastname, password }) {
     })
 }
 
+// Retrieves all users with their id, firstname, and lastname
 export function fetchAllUsers(db) {
     return new Promise((resolve, reject) => {
         const stmt = db.prepare('SELECT id, firstname, lastname FROM users');

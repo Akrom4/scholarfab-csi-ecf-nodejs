@@ -1,3 +1,4 @@
+// Creates a new share for a specific note with a given user and permission
 export function createShare(db, { noteId, userId, permission }) {
     return new Promise((resolve, reject) => {
         const createdAt = new Date().toISOString();
@@ -13,6 +14,7 @@ export function createShare(db, { noteId, userId, permission }) {
     });
 }
 
+// Retrieves all shares associated with a specific user
 export function fetchSharesByUser(db, userId) {
     return new Promise((resolve, reject) => {
         const stmt = db.prepare('SELECT * FROM shares WHERE user_id=?');
@@ -23,6 +25,7 @@ export function fetchSharesByUser(db, userId) {
     });
 }
 
+// Deletes a specific share by its identifier
 export function revokeShare(db, shareId) {
     return new Promise((resolve, reject) => {
         const stmt = db.prepare('DELETE FROM shares WHERE id=?');
@@ -33,6 +36,7 @@ export function revokeShare(db, shareId) {
     });
 }
 
+// Retrieves all shares for notes belonging to a specific user
 export function fetchSharesByNote(db, userId) {
     return new Promise((resolve, reject) => {
         const stmt = db.prepare(`
@@ -52,6 +56,7 @@ export function fetchSharesByNote(db, userId) {
     });
 }
 
+// Retrieves a specific share for a given note and user
 export function fetchShareByNoteAndUser(db, { noteId, userId }) {
     return new Promise((resolve, reject) => {
         const stmt = db.prepare('SELECT * FROM shares WHERE note_id = ? AND user_id = ?');
