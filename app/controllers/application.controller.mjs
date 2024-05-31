@@ -35,22 +35,23 @@ async function handleCreateNoteForm(req, res) {
 
 // Handles saving a new note to the database
 async function handleSaveNote(req, res) {
-  const { app } = req;
-  const db = app.get("g:db");
-  const user = req.session.user;
-
-  if (!user) {
-    return res.redirect("/login");
+    const { app } = req;
+    const db = app.get("g:db");
+    const user = req.session.user;
+  
+    if (!user) {
+      return res.redirect("/login");
+    }
+  
+    try {
+      const { title, content } = req.body;
+      const note = await createNote(db, { title, content, ownerId: user.id });
+      res.redirect("/");
+    } catch (err) {
+      console.error("Failed to save note:", err);
+      res.redirect("/login");
+    }
   }
-
-  try {
-    const { title, content } = req.body;
-    const note = await createNote(db, { title, content, ownerId: user.id });
-    res.redirect("/");
-  } catch (err) {
-    res.redirect("/login");
-  }
-}
 
 // Handles viewing a specific note, checking if the user has permission
 async function handleViewNote(req, res) {
@@ -65,6 +66,8 @@ async function handleViewNote(req, res) {
 
   try {
     const note = await fetchNoteById(db, id);
+    let hasWritePermission = false;
+
     if (note.owner_id !== user.id) {
       const share = await fetchShareByNoteAndUser(db, {
         noteId: id,
@@ -73,13 +76,18 @@ async function handleViewNote(req, res) {
       if (!share || (share.perm !== "rw" && share.perm !== "ro")) {
         return res.redirect("/");
       }
+      hasWritePermission = share.perm === "rw";
+    } else {
+      hasWritePermission = true;
     }
+
     const formattedCreatedAt = formatDate(note.created_at);
     const formattedUpdatedAt = formatDate(note.updated_at);
     res.render("viewNote", {
       note,
       date: formattedCreatedAt,
       updatedAt: formattedUpdatedAt,
+      hasWritePermission,
     });
   } catch (err) {
     console.error(err);

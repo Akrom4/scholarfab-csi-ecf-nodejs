@@ -14,9 +14,13 @@ export function createNote(db, { title, content, ownerId }) {
     return new Promise((resolve, reject) => {
         const createdAt = new Date().toISOString();
         const stmt = db.prepare('INSERT INTO notes(title, content, owner_id, created_at, updated_at) VALUES (?,?,?,?,?)');
-        stmt.run([title, content, ownerId, createdAt, createdAt], (err, data) => {
-            const p = err ? err : data;
-            (err ? reject : resolve)(p);
+        stmt.run([title, content, ownerId, createdAt, createdAt], function(err) {
+            if (err) {
+                console.error('Error creating note:', err);
+                reject(err);
+            } else {
+                resolve(this.lastID); // Optionally return the ID of the created note
+            }
         });
     });
 }

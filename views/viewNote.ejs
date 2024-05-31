@@ -10,6 +10,8 @@
     <p><%= note ? `${note.content}` : '' %></p>
     <p>Crée le <%= note ? `${date}` : '' %></p>
     <p>Dernière modification le <%= note ? `${updatedAt}` : '' %></p>
-    <a href="/note/<%= note.id %>/edit">Edit</a>
+    <% if (hasWritePermission) { %>
+        <a href="/note/<%= note.id %>/edit">Edit</a>
+    <% } %>
 </body>
 </html>
